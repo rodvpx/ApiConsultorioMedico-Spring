@@ -19,17 +19,11 @@ public class Medico {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @ManyToOne
+    private Usuario usuario;
+
     @NotNull(message = "Nome é obrigatório.")
     private String nome;
-
-    @NotNull
-    @Email(message = "Email inválido.")
-    @Column(unique = true)
-    private String email;
-
-    @NotNull
-    @Size(min = 5, message = "A senha deve ter no mínimo 5 caracteres.")
-    private String senha;
 
     @Pattern(regexp = "\\(\\d{2}\\) \\d{5}-\\d{4}", message = "Formato de telefone inválido. Use (XX) XXXXX-XXXX.")
     private String telefone;

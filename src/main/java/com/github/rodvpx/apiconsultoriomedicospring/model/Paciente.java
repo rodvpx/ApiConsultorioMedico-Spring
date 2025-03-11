@@ -18,6 +18,9 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @ManyToOne
+    private Usuario usuario;
+
     @NotNull
     @Pattern(regexp = "\\d{11}", message = "CPF inválido. Deve conter 11 dígitos.")
     @Column(unique = true)
@@ -26,14 +29,6 @@ public class Paciente {
     @NotNull(message = "Nome é obrigatório.")
     private String nome;
 
-    @NotNull
-    @Email(message = "Email inválido.")
-    @Column(unique = true)
-    private String email;
-
-    @NotNull
-    @Size(min = 5, message = "A senha deve ter no mínimo 5 caracteres.")
-    private String senha;
 
     @Pattern(regexp = "\\(\\d{2}\\) \\d{5}-\\d{4}", message = "Formato de telefone inválido. Use (XX) XXXXX-XXXX.")
     private String telefone;

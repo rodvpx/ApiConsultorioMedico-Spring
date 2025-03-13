@@ -1,6 +1,7 @@
 package com.github.rodvpx.apiconsultoriomedicospring.repository;
 
 import com.github.rodvpx.apiconsultoriomedicospring.model.Medico;
+import com.github.rodvpx.apiconsultoriomedicospring.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public interface MedicoRepository extends JpaRepository<Medico, UUID> {
 
     // Buscar médico por nome
-    Optional<Medico> findByNome(String nome);
+    List<Medico> findByNome(String nome);
 
     // Buscar médico por CRM
     Optional<Medico> findByCrm(String crm);
@@ -20,4 +21,7 @@ public interface MedicoRepository extends JpaRepository<Medico, UUID> {
 
     // Buscar todos os médicos (já disponível via JpaRepository)
     List<Medico> findAll();
+
+    Optional<Medico> findById(UUID id);
+
 }

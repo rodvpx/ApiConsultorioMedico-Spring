@@ -25,22 +25,35 @@ public class MedicoService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Registrar um novo médico
     public Medico save(Medico medico) {
+        // Criptografando a senha
         String senhaCriptografada = passwordEncoder.encode(medico.getUsuario().getSenha());
 
+        // Verificando se CRM ou Email já estão cadastrados
+        if (verificarSeCrmExiste(medico.getCrm()) || verificarSeEmailJaCadastrado(medico.getUsuario().getEmail())) {
+            System.out.println("ERROR: Crm ou email já cadastrados");
+            return null;  // Retorna null se já existirem CRM ou Email cadastrados
+        }
+
+        // Criando um novo usuário
         Usuario usuario = new Usuario();
         usuario.setEmail(medico.getUsuario().getEmail());
         usuario.setSenha(senhaCriptografada);
         usuario.setRole("ROLE_MEDICO");  // Definindo o papel do usuário como médico
 
+        // Salvando o usuário
         usuarioRepository.save(usuario);
+
+        // Associa o usuário criado ao médico
         medico.setUsuario(usuario);
+
+        // Salvando o médico com o usuário associado
         return medicoRepository.save(medico);
     }
 
+
     // Atualizar um médico existente
-    public Medico atualizarMedico(UUID id, Medico newMedico) {
+    public Medico update(UUID id, Medico newMedico) {
         // Buscar o médico no banco de dados
         Medico medicoExistente = medicoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
@@ -57,11 +70,16 @@ public class MedicoService {
         return medicoRepository.save(medicoExistente);
     }
 
-    // Buscar médico pelo nome
-    public Medico findByNome(String nome) {
-        return medicoRepository.findByNome(nome)
-                .orElseThrow(() -> new RuntimeException("Médico com o nome '" + nome + "' não encontrado"));
+    public List<Medico> findByNome(String nome) {
+        List<Medico> medicos = medicoRepository.findByNome(nome);
+
+        if (medicos.isEmpty()) {
+            throw new RuntimeException("Nenhum médico encontrado com o nome '" + nome + "'");
+        }
+
+        return medicos;
     }
+
 
     // Buscar médico pelo CRM
     public Medico findByCrm(String crm) {

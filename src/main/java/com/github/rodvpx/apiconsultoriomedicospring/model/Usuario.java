@@ -8,13 +8,13 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Entity
 @Data
+@Entity
 @Table(name = "usuarios")
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull

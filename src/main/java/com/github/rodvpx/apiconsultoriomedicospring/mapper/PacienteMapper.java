@@ -5,7 +5,13 @@ import com.github.rodvpx.apiconsultoriomedicospring.dto.output.PacienteOutput;
 import com.github.rodvpx.apiconsultoriomedicospring.model.Paciente;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
-public interface PacienteMapper extends MapperBase<Paciente, PacienteInput, PacienteOutput> {
-}
+import java.util.List;
 
+@Mapper(componentModel = "spring")
+public interface PacienteMapper {
+    Paciente toEntity(PacienteInput input);
+
+    PacienteOutput toOutput(Paciente entity);
+
+    List<PacienteOutput> toOutputList(List<Paciente> entities);
+}

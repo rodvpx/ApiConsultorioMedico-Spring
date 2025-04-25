@@ -4,7 +4,10 @@ import java.time.LocalDate;
 
 public record RecepcionistaInput (
         String cpf,
+        String nome,
         String telefone,
-        LocalDate dataContratacao
+        LocalDate dataContratacao,
+        Boolean status,
+        UsuarioInput usuario
 ){
 }

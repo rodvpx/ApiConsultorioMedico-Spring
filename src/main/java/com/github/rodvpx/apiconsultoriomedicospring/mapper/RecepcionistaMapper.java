@@ -5,6 +5,13 @@ import com.github.rodvpx.apiconsultoriomedicospring.dto.output.RecepcionistaOutp
 import com.github.rodvpx.apiconsultoriomedicospring.model.Recepcionista;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
-public interface RecepcionistaMapper extends MapperBase<Recepcionista, RecepcionistaInput, RecepcionistaOutput> {
+public interface RecepcionistaMapper {
+    Recepcionista toEntity(RecepcionistaInput input);
+
+    RecepcionistaOutput toOutput(Recepcionista entity);
+
+    List<RecepcionistaOutput> toOutputList(List<Recepcionista> entities);
 }

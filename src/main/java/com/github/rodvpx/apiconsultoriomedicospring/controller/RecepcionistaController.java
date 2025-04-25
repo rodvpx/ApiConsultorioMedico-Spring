@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,14 @@ public class RecepcionistaController {
         this.recepcionistaService = recepcionistaService;
     }
 
-    // Endpoint para criar um recepcionista
+    // Endpoint para criar um recepcionista (exige ROLE_ADMIN)
     @PostMapping("/cadastro")
-    public ResponseEntity<RecepcionistaOutput> criarRecepcionista(@Valid @RequestBody RecepcionistaInput recepcionistaInput) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(recepcionistaService.save(recepcionistaInput));  // Retorna 201 Created
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<RecepcionistaOutput> criarRecepcionista(
+            @Valid @RequestBody RecepcionistaInput recepcionistaInput) {
+
+        RecepcionistaOutput output = recepcionistaService.save(recepcionistaInput);
+        return ResponseEntity.status(HttpStatus.CREATED).body(output);
     }
 
     // Endpoint para atualizar um recepcionista
